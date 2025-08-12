@@ -1,0 +1,14 @@
+SELECT 
+    user_id,
+    COALESCE(ROUND(
+        SUM(CASE WHEN action = 'confirmed' THEN 1 ELSE 0 END) * 1.0 /
+        (SUM(CASE WHEN action = 'timeout' THEN 1 ELSE 0 END) + 
+         SUM(CASE WHEN action = 'confirmed' THEN 1 ELSE 0 END)
+        ),
+        2
+    ),0)      AS confirmation_rate 
+FROM 
+    (select Signups.user_id, Confirmations.time_stamp, Confirmations.action as action    
+        from Signups left join Confirmations on Signups.user_id = Confirmations.user_id) As T
+GROUP BY  
+    user_id;

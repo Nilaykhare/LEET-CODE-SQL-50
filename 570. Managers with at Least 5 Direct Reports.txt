@@ -1,0 +1,11 @@
+SELECT 
+    Managers.name
+FROM 
+    Employee
+JOIN 
+    Employee AS Managers
+    ON Employee.managerId = Managers.id
+GROUP BY 
+    Employee.managerId, Managers.name
+HAVING 
+    COUNT(Employee.id) > 4;

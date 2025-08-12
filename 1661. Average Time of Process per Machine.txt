@@ -1,0 +1,4 @@
+select machine_id, Round(Avg(end_time - start_time), 3) as processing_time 
+from (select machine_id , process_id , 
+        MAX(CASE when activity_type = 'start' THEN timestamp END ) as start_time, 
+        MAX(CASE when activity_type = 'end' THEN timestamp END) as end_time from Activity group by machine_id, process_id ) as process_time GROUP BY machine_id;
