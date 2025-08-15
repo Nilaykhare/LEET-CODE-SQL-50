@@ -1,0 +1,1 @@
+select round(AVG(Counter),2) as fraction  from (select SUM(Case when DATEDIFF(T.event_date, P.first_date) = 1 then 1 else 0 End) as Counter from Activity as T right join ( SELECT player_id , MIN(event_date) AS first_date FROM Activity GROUP BY player_id) as P on P.player_id = T.player_id group by T.player_id) as X
